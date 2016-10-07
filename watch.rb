@@ -1,44 +1,73 @@
 #encoding: UTF-8
 root = File.expand_path('../', __FILE__)
-require 'fileutils'
+
+require 'nokogiri'
 require "#{root}/config/enviroment"
 
 
-
 class Watch
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # tweak EZTitles EBU-TT-D files to meet the BBC's EBU-TT-D
+  # specifications. This will be part of a automated workflow to
+  # for file coversion
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   attr_accessor :file
 
   def initialize(file)
-    reg_win_ends = /\r\n/
-    reg_1line_f = /(\d\d\d\d\s:.+:\d\d.+)(\n\[..\].+\n)(\[\]\n)+\n/
-    reg_2line_f = /(\d\d\d\d\s:.+:\d\d.+)(\n\[..\].+\n\[..\].+\n)(\[\]\n)+\n/
 
-    file_name = File.basename(file, ".txt")
-  
     begin
-      text = File.read(file, :encoding => 'utf-8').encode!(Encoding::UTF_8)
-      text.gsub!(reg_win_ends,"\n")
-      text.gsub!(reg_1line_f, "\\1\\2\[\]\n\[\]\n\[\]\n\[\]\n\[\]\n\[\]\n\[\]\n\[\]\n\n")
-      text.gsub!(reg_2line_f, "\\1\\2\[\]\n\[\]\n\[\]\n\[\]\n\[\]\n\[\]\n\[\]\n\n")
-      text.gsub!("\n", "\r\n")
+
+    # xml_doc  = Nokogiri::XML(file)
+    @doc = Nokogiri::XML(File.open(file))
+    file_name = File.basename(file, ".txt")
+
+    # remove the backgroundColor attribute form the default style
+    default_style = @doc.xpath('//tt:style', '//*[@xml:id="defaultStyle"]')
+    default_style.xpath("//@tts:backgroundColor").remove
+
+    # ensure that the language code is en-GB
+    tt_tt = @doc.at_xpath('//tt:tt')# = "ee"
+    tt_tt['xml:lang'] = 'en-GB'
 
 
-      #puts text.force_encoding("UTF-8")
-      File.open("#{TARGET_ONE}/#{file_name}.txt", 'w'){|file| file.write(text)}
-      FileUtils.cp("#{TARGET_ONE}/#{file_name}.txt", "#{TARGET_TWO}/#{file_name}.txt")
-      FileUtils.mv("#{SOURCE_PATH}/#{file_name}.txt", "#{PROCESSED_PATH}/#{file_name}.txt")
-    
-    
+    # find nested spans place them after parent changing the style to
+    # textFFFFFFOn000000
+    spans = @doc.xpath('//tt:span')
+
+    spans.each do |span|
+      unless span.elements.empty?
+        span.elements.each do |element|
+          self.set_style element
+          #element['style'] = "textFFFFFFOn000000Italic"
+          puts element
+          element.parent.after self.set_style element
+        end
+      end
+
+    end
+
+    File.write("#{TARGET_ONE}/#{file_name}.xml", @doc.to_xml)
+
     rescue => err
       puts "Exception: #{err}"
       err
     end
   end
-  
+
+  def set_style node
+    if node['style'] == 'textItalic'
+      node['style'] = 'textFFFFFFOn000000Italic'
+    else
+      node
+    end
+  end
+
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# 
+#
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 Dir.chdir(SOURCE_PATH)
@@ -54,6 +83,3 @@ files.each do |file|
     Watch.new(file)
   end
 end
-
-
-

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Subtitles file created by EZConvert V version 5.1.2 -->
-<tt:tt xml:lang="en-GB" xmlns="http://www.w3.org/ns/ttml" xmlns:tts="http://www.w3.org/ns/ttml#styling" xmlns:ttp="http://www.w3.org/ns/ttml#parameter" xmlns:tt="http://www.w3.org/ns/ttml" xmlns:ebuttm="urn:ebu:tt:metadata" xmlns:ebutts="urn:ebu:tt:style" ttp:timeBase="media">
+<tt:tt xml:lang="de-DE" xmlns="http://www.w3.org/ns/ttml" xmlns:tts="http://www.w3.org/ns/ttml#styling" xmlns:ttp="http://www.w3.org/ns/ttml#parameter" xmlns:tt="http://www.w3.org/ns/ttml" xmlns:ebuttm="urn:ebu:tt:metadata" xmlns:ebutts="urn:ebu:tt:style" ttp:timeBase="media">
   <tt:head>
     <tt:metadata>
       <ebuttm:documentMetadata>
@@ -14,7 +14,7 @@
       </ebuttm:documentMetadata>
     </tt:metadata>
     <tt:styling>
-      <tt:style xml:id="defaultStyle" tts:textDecoration="none" tts:fontWeight="normal" tts:fontStyle="normal" tts:color="#FFFFFF" tts:textAlign="center" tts:fontFamily="Arial Unicode MS" tts:fontSize="100%" tts:lineHeight="normal"/>
+      <tt:style xml:id="defaultStyle" tts:textDecoration="none" tts:fontWeight="normal" tts:fontStyle="normal" tts:backgroundColor="#00000000" tts:color="#FFFFFF" tts:textAlign="center" tts:fontFamily="Arial Unicode MS" tts:fontSize="100%" tts:lineHeight="normal"/>
       <tt:style xml:id="textFFFFFFOn000000" tts:color="#FFFFFF" tts:backgroundColor="#000000"/>
       <tt:style xml:id="textFFFFFFOn000000Italic" tts:color="#FFFFFF" tts:backgroundColor="#000000" tts:fontStyle="italic"/>
       <tt:style xml:id="textItalic" tts:fontStyle="italic"/>
