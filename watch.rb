@@ -50,7 +50,7 @@ class Watch
     end
 
     File.write("#{TARGET_ONE}/#{file_name}.xml", @doc.to_xml)
-    # FileUtils.mv("#{SOURCE_PATH}/#{file_name}.xml", "#{PROCESSED_PATH}/#{file_name}.xml")
+    FileUtils.mv("#{SOURCE_PATH}/#{file_name}.xml", "#{PROCESSED_PATH}/#{file_name}.xml")
 
     rescue => err
       puts "Exception: #{err}"
