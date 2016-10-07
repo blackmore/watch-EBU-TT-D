@@ -25,7 +25,8 @@ class Watch
 
     # remove the backgroundColor attribute form the default style
     default_style = @doc.xpath('//tt:style', '//*[@xml:id="defaultStyle"]')
-    default_style.xpath("//@tts:backgroundColor").remove
+    puts
+    default_style.at_xpath("//@tts:backgroundColor").remove
 
     # ensure that the language code is en-GB
     tt_tt = @doc.at_xpath('//tt:tt')# = "ee"
@@ -49,7 +50,7 @@ class Watch
     end
 
     File.write("#{TARGET_ONE}/#{file_name}.xml", @doc.to_xml)
-    FileUtils.mv("#{SOURCE_PATH}/#{file_name}.xml", "#{PROCESSED_PATH}/#{file_name}.xml")
+    # FileUtils.mv("#{SOURCE_PATH}/#{file_name}.xml", "#{PROCESSED_PATH}/#{file_name}.xml")
 
     rescue => err
       puts "Exception: #{err}"
