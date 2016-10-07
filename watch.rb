@@ -1,6 +1,6 @@
 #encoding: UTF-8
 root = File.expand_path('../', __FILE__)
-
+require 'fileutils'
 require 'nokogiri'
 require "#{root}/config/enviroment"
 
@@ -21,7 +21,7 @@ class Watch
 
     # xml_doc  = Nokogiri::XML(file)
     @doc = Nokogiri::XML(File.open(file))
-    file_name = File.basename(file, ".txt")
+    file_name = File.basename(file, ".xml")
 
     # remove the backgroundColor attribute form the default style
     default_style = @doc.xpath('//tt:style', '//*[@xml:id="defaultStyle"]')
@@ -49,6 +49,7 @@ class Watch
     end
 
     File.write("#{TARGET_ONE}/#{file_name}.xml", @doc.to_xml)
+    FileUtils.mv("#{SOURCE_PATH}/#{file_name}.xml", "#{PROCESSED_PATH}/#{file_name}.xml")
 
     rescue => err
       puts "Exception: #{err}"
