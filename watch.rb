@@ -25,7 +25,6 @@ class Watch
 
     # remove the backgroundColor attribute form the default style
     default_style = @doc.xpath('//tt:style', '//*[@xml:id="defaultStyle"]')
-    puts
     default_style.at_xpath("//@tts:backgroundColor").remove
 
     # ensure that the language code is en-GB
@@ -41,13 +40,12 @@ class Watch
       unless span.elements.empty?
         span.elements.each do |element|
           self.set_style element
-          #element['style'] = "textFFFFFFOn000000Italic"
-          puts element
           element.parent.after self.set_style element
         end
       end
-
     end
+
+    self.ensure_style_tag_exists('textFFFFFFOn000000Italic')
 
     File.write("#{TARGET_ONE}/#{file_name}.xml", @doc.to_xml)
     FileUtils.mv("#{SOURCE_PATH}/#{file_name}.xml", "#{PROCESSED_PATH}/#{file_name}.xml")
@@ -65,6 +63,16 @@ class Watch
       node
     end
   end
+
+  def ensure_style_tag_exists tag
+    puts tag
+    style_group = @doc.at_xpath("//tt:style")
+    style_tag = @doc.at_xpath("//tt:style[@xml:id='#{tag}']")
+    unless style_tag
+      style_group.add_next_sibling "\n      <tt:style xml:id='textFFFFFFOn000000Italic' tts:color='#FFFFFF' tts:backgroundColor='#000000' tts:fontStyle='italic'/>"
+    end
+  end
+
 
 end
 

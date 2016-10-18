@@ -16,7 +16,6 @@
     <tt:styling>
       <tt:style xml:id="defaultStyle" tts:textDecoration="none" tts:fontWeight="normal" tts:fontStyle="normal" tts:backgroundColor="#00000000" tts:color="#FFFFFF" tts:textAlign="center" tts:fontFamily="Arial Unicode MS" tts:fontSize="100%" tts:lineHeight="normal"/>
       <tt:style xml:id="textFFFFFFOn000000" tts:color="#FFFFFF" tts:backgroundColor="#000000"/>
-      <tt:style xml:id="textFFFFFFOn000000Italic" tts:color="#FFFFFF" tts:backgroundColor="#000000" tts:fontStyle="italic"/>
       <tt:style xml:id="textItalic" tts:fontStyle="italic"/>
     </tt:styling>
     <tt:layout>
